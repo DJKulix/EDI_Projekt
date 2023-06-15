@@ -95,54 +95,30 @@ plt.title('Zmiany nastrojów w czasie')
 plt.xticks(rotation=45)
 plt.show()
 
-# Tworzenie listy słów
-word_list = [word for tweet in data['clean_text'] for word in tweet]
+word_count = Counter()
+for text in data['clean_text']:
+    if isinstance(text, str):
+        words = text.split()
+        word_count.update(words)
 
-# Obliczanie wystąpień słów
-word_count = Counter(word_list)
-
-# # Wyodrębnienie 50 najczęściej występujących słów
-# top_words = word_count.most_common(50)
-# top_words = dict(top_words)
-#
-# # Tworzenie wykresu słupkowego
-# plt.figure(figsize=(12, 6))
-# plt.bar(top_words.keys(), top_words.values())
-# plt.xticks(rotation=90)
-# plt.xlabel('Słowo')
-# plt.ylabel('Liczba wystąpień')
-# plt.title('50 najczęściej występujących słów')
-# plt.tight_layout()
-# plt.show()
-
-# Wykres zawierający liczbę słów
 top_words = word_count.most_common(50)
-words, counts = zip(*top_words)
 
-plt.figure(figsize=(12, 6))  # Zwiększenie rozmiaru wykresu
-plt.bar(words, counts)
-plt.xlabel('Słowa')
-plt.ylabel('Liczba wystąpień')
-plt.title('Najczęściej występujące słowa')
-plt.xticks(rotation=45)  # Obrót etykiet osi x o 45 stopni
-plt.tight_layout()  # Dopasowanie wykresu
-plt.show()
-
-# Wykres zawierający liczbę słów
-top_words = word_count.most_common(50)
-words, counts = zip(*top_words)
-
-plt.figure(figsize=(12, 6))  # Zwiększenie rozmiaru wykresu
-plt.bar(words, counts)
-plt.xlabel('Słowa')
-plt.ylabel('Liczba wystąpień')
-plt.title('Najczęściej występujące słowa')
-plt.xticks(rotation=45)  # Obrót etykiet osi x o 45 stopni
-plt.tight_layout()  # Dopasowanie wykresu
-plt.show()
-
-sorted_words = sorted(top_words, key=lambda x: x[1], reverse=True)
-
-print("Posortowane najczęściej występujące słowa:")
-for word, count in sorted_words:
+print("Najczęściej występujące słowa:")
+for word, count in top_words:
     print(f"Słowo: {word}, Liczba wystąpień: {count}")
+
+
+top_words = word_count.most_common(50)
+words, counts = zip(*top_words)
+
+# Tworzenie wykresu słupkowego
+plt.figure(figsize=(12, 6))
+plt.bar(words, counts)
+plt.xticks(rotation=90)
+plt.xlabel('Słowa')
+plt.ylabel('Liczba wystąpień')
+plt.title('Najczęściej występujące słowa')
+
+# Wyświetlanie wykresu
+plt.tight_layout()
+plt.show()
